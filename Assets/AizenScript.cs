@@ -33,7 +33,22 @@ public class AizenScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Check if the player is grounded
-        isGrounded = Physics2D.IsTouchingLayers(coll, LayerMask.GetMask("Ground"));
+        
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Ground")
+        {
+            isGrounded = true;
+        } 
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Ground")
+        {
+            isGrounded = false;
+        }
     }
 }
