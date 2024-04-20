@@ -1,29 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraZoom : MonoBehaviour
 {
-    private float zoom;
-    private float zoomMultiplier = 4f;
-    private float minZoom = 2f;
-    private float maxZoom = 8f;
-    private float velocity = 0f;
-    private float smoothTime = 0.25f;
-    [SerializeField] private Camera cam;
-
-    // Start is called before the first frame update
+    [SerializeField] CinemachineVirtualCamera virtualCamera;
+    [SerializeField] float sensitivity = 10f;
+    private CinemachineFramingTransposer framingTransposer;
+    
     void Start()
     {
-        zoom = cam.orthographicSize;
+        // Get the CinemachineFramingTransposer component
+        if (virtualCamera != null)
+        {
+            framingTransposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        zoom -= scroll * zoomMultiplier;
-        zoom = Mathf.Clamp(zoom,minZoom, maxZoom);
-        cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref velocity, smoothTime);
+        // Check if the virtualCamera and framingTransposer are assigned
+        if (virtualCamera != null && framingTransposer != null)
+        {
+            // Adjust the camera distance using the mouse scroll wheel input
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            framingTransposer.m_CameraDistance -= scroll * sensitivity * Time.deltaTime;
+            
+            // Clamp the camera distance to a reasonable range
+            framingTransposer.m_CameraDistance = Mathf.Clamp(framingTransposer.m_CameraDistance, 
+                                                             framingTransposer.m_MinimumDistance, 
+                                                             framingTransposer.m_MaximumDistance);
+        }
     }
 }
