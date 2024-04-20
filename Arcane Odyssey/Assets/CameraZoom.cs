@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class CameraZoom : MonoBehaviour
 {
-    [SerializeField]
-    private float ScrollSpeed = 10;
-    private CameraZoom ZoomCamera;
+    private float zoom;
+    private float zoomMultiplier = 4f;
+    private float minZoom = 2f;
+    private float maxZoom = 8f;
+    private float velocity = 0f;
+    private float smoothTime = 0.25f;
+    [SerializeField] private Camera cam;
 
     // Start is called before the first frame update
     void Start()
     {
-        ZoomCamera = Camera.main;
+        zoom = cam.orthographicSize;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ZoomCamera.orthographic)
-        {
-            ZoomCamera.orthographicZoom -= Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
-        }
-        else
-        {
-            ZoomCameera.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
-        }
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        zoom -= scroll * zoomMultiplier;
+        zoom = Mathf.Clamp(zoom,minZoom, maxZoom);
+        cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref velocity, smoothTime);
     }
 }
