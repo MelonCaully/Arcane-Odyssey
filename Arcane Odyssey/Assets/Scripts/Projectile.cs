@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour
         animator.SetTrigger("Explode");
     }
 
-    void SetDirection(float _direction)
+    public void SetDirection(float _direction)
     {
         direction = _direction;
         gameObject.SetActive(true);
