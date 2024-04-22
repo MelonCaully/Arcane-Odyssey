@@ -5,14 +5,13 @@ using UnityEngine;
 public class AizenAttack : MonoBehaviour
 {
     [SerializeField] private float attackCooldown;
-    [SerializeField] private Transform firePointl;
+    [SerializeField] private Transform firePoint;
     [SerializeField] public GameObject[] spells;
     public float cooldownTimer = Mathf.Infinity;
     public int attackDamage = 20; // Damage points per attack
     public Animator animator;
     public AizenMovement playerMovement;
     public Projectile ProjectilePrefab;
-    public Transform LaunchOffset;
     private Rigidbody2D rb;
     private PolygonCollider2D coll;
 
@@ -27,10 +26,7 @@ public class AizenAttack : MonoBehaviour
     void Update()
     {
         // Attack input handling
-        if (Input.GetMouseButton(0) && cooldownTimer > attackCooldown)
-        {
-            Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
-        } 
+        
     }
 
     void FixedUpdate()
@@ -53,7 +49,17 @@ public class AizenAttack : MonoBehaviour
         animator.SetTrigger("Attack");
         cooldownTimer = 0;
 
-        spells[0].transform.position = firePointl.position;
-        spells[0].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+        spells[FindSpells()].transform.position = firePoint.position;
+        spells[FindSpells()].GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+    }
+
+    private int FindSpells()
+    {
+        for (int i = 0; i < spells.Length; i++)
+        {
+            if (!spells[i].activeInHierarchy)
+                return i;
+        }
+        return 0;
     }
 }

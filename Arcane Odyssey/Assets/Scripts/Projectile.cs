@@ -7,13 +7,14 @@ public class Projectile : MonoBehaviour
     [SerializeField] public float speed;
     private float direction;
     private bool hit;
+    private float lifetime;
     private Animator animator;
-    private BoxCollider2D boxCollider;
+    private CircleCollider2D circleCollider;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        circleCollider = GetComponent<CircleCollider2D>();
     }
 
     void Update()
@@ -21,21 +22,25 @@ public class Projectile : MonoBehaviour
         if (hit) return;
         float movementSpeed = speed * Time.deltaTime * direction;
         transform.Translate(movementSpeed, 0, 0);
+
+        lifetime += Time.deltaTime;
+        if (lifetime > 5) gameObject.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         hit = true;
-        boxCollider.enabled = false;
+        circleCollider.enabled = false;
         animator.SetTrigger("Explode");
     }
 
     public void SetDirection(float _direction)
     {
+        lifetime = 0;
         direction = _direction;
         gameObject.SetActive(true);
         hit = false;
-        boxCollider.enabled = true;
+        circleCollider.enabled = true;
 
         float localScaleX = transform.localScale.x;
         if (Mathf.Sign(localScaleX) != _direction)
