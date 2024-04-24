@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Menu state that show Menu view and add interpret user interaction with that view.
@@ -10,7 +13,7 @@ public class MenuState : BaseState
         base.PrepareState();
 
         // Attach functions to view events
-       // owner.UI.MenuView.OnStartClicked += StartClicked;
+        owner.UI.MenuView.OnStartClicked += StartClicked;
         owner.UI.MenuView.OnQuitClicked += QuitClicked;
         owner.UI.MenuView.OnSettingsClicked += SettingsClicked;
         // Show menu view
@@ -23,7 +26,7 @@ public class MenuState : BaseState
         owner.UI.MenuView.HideView();
 
         // Detach functions from view events
-       // owner.UI.MenuView.OnStartClicked -= StartClicked;
+        owner.UI.MenuView.OnStartClicked -= StartClicked;
         owner.UI.MenuView.OnQuitClicked -= QuitClicked;
         owner.UI.MenuView.OnSettingsClicked -= SettingsClicked;
 
@@ -34,7 +37,10 @@ public class MenuState : BaseState
     /// Function called when Start button is clicked in Menu view.
     /// </summary>
 
-
+    private void StartClicked()
+    {
+        SceneManager.LoadScene("Level 1");
+    }
     private void SettingsClicked()
     {
         owner.ChangeState(new SettingsState());

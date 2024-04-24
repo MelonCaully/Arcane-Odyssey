@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7016154085846493797}
   - component: {fileID: 908053902073646398}
   - component: {fileID: 1995259602000443147}
+  - component: {fileID: 1308824534022931467}
   m_Layer: 11
   m_Name: Spike
   m_TagString: Trap
@@ -120,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd1bd03fb5fd7143b82f87b45172610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activationDelay: 5
 --- !u!61 &1995259602000443147
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -130,7 +132,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -146,3 +148,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &1308824534022931467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7016154085846493795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00758ca3f044c54e878fab6a2e6bb43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.5
