@@ -1,37 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
 public class CameraZoom : MonoBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera virtualCamera;
-    [SerializeField] float sensitivity = 10f;
-    private CinemachineFramingTransposer framingTransposer;
-    
-    void Start()
-    {
-        // Get the CinemachineFramingTransposer component
-        if (virtualCamera != null)
-        {
-            framingTransposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        }
-    }
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private float zoomSpeed = 1f;
+    [SerializeField] private float minZoom = 3f;
+    [SerializeField] private float maxZoom = 10f;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        // Check if the virtualCamera and framingTransposer are assigned
-        if (virtualCamera != null && framingTransposer != null)
-        {
-            // Adjust the camera distance using the mouse scroll wheel input
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            framingTransposer.m_CameraDistance -= scroll * sensitivity * Time.deltaTime;
-            
-            // Clamp the camera distance to a reasonable range
-            framingTransposer.m_CameraDistance = Mathf.Clamp(framingTransposer.m_CameraDistance, 
-                                                             framingTransposer.m_MinimumDistance, 
-                                                             framingTransposer.m_MaximumDistance);
-        }
+        // Get the scroll wheel input
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+
+        // Calculate new zoom level
+        float zoomLevel = virtualCamera.m_Lens.OrthographicSize - scrollInput * zoomSpeed;
+
+        // Clamp the zoom level between minZoom and maxZoom
+        zoomLevel = Mathf.Clamp(zoomLevel, minZoom, maxZoom);
+
+        // Set the new zoom level
+        virtualCamera.m_Lens.OrthographicSize = zoomLevel;
     }
 }

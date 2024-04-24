@@ -7,6 +7,8 @@ public class AizenAttack : MonoBehaviour
     [SerializeField] private float attackCooldown;
     [SerializeField] private Transform firePoint;
     [SerializeField] public GameObject[] spells;
+    [SerializeField] private AudioClip basicSpellSound;
+
     public float cooldownTimer = Mathf.Infinity;
     public int attackDamage = 20; // Damage points per attack
     public Animator animator;
@@ -22,19 +24,12 @@ public class AizenAttack : MonoBehaviour
         playerMovement = GetComponent<AizenMovement>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Attack input handling
-        
-    }
-
     void FixedUpdate()
     {
         // Attack input handling
         if (Input.GetMouseButton(0) && cooldownTimer > attackCooldown)
         {
-            Attack();
+            animator.SetTrigger("Attack");
         } 
         else 
         {
@@ -46,7 +41,7 @@ public class AizenAttack : MonoBehaviour
     // Function to perform attack
     void Attack()
     {
-        animator.SetTrigger("Attack");
+        SoundManager.instance.PlaySound(basicSpellSound);
         cooldownTimer = 0;
 
         spells[FindSpells()].transform.position = firePoint.position;

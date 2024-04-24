@@ -6,12 +6,13 @@ public class AizenMovement : MonoBehaviour
 {
     public float moveSpeed = 10f; // Move speed
     public float jumpForce = 15f; // Jump speed
-    public int n;
+    [SerializeField] public int n;
     public Animator animator;
     private Rigidbody2D rb;
     private PolygonCollider2D coll;
-    private bool isGrounded; // Flag determines if touching ground
+    //private bool isGrounded; // Flag determines if touching ground
     private Vector3 initialScale;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +40,7 @@ public class AizenMovement : MonoBehaviour
         }
 
         // Vertical Movement
-        if (Input.GetKeyDown(KeyCode.Space) == true && n < 1)
+        if (Input.GetKeyDown(KeyCode.Space) == true && n < 2)
         {
             Jump();
         } 
@@ -48,14 +49,20 @@ public class AizenMovement : MonoBehaviour
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", true);
         }
+
+        // Adjustable jump height
+        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y / 2);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Ground")
         {
+            //isGrounded = true;
             n = 0;
-            isGrounded = true;
             animator.SetBool("isFalling", false);
             animator.SetBool("isGrounded", true);
         }
@@ -65,7 +72,7 @@ public class AizenMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
         {
-            isGrounded = false;
+            //isGrounded = false;
             animator.SetBool("isGrounded", false);
         }
     }
