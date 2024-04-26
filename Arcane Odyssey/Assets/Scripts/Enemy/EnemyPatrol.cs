@@ -31,16 +31,6 @@ public class EnemyPatrol : MonoBehaviour
         enemy.localScale = new Vector3(Mathf.Abs(initScale.x) * _direction, 
             initScale.y, initScale.z);
 
-        // Rotate enemy to face the direction
-        if (_direction > 0)
-        {
-           enemy.localRotation = Quaternion.Euler(0, 0, 0); // Face right
-        }
-        else if (_direction < 0)
-        {
-           enemy.localRotation = Quaternion.Euler(0, 180, 0); // Face left
-        }
-
         // Move in that direction
         enemy.position = new Vector3(enemy.position.x + Time.deltaTime *_direction * speed, 
             enemy.position.y, enemy.position.z);
