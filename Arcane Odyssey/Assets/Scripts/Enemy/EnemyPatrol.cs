@@ -14,6 +14,7 @@ public class EnemyPatrol : MonoBehaviour
      [Header ("Movement Parameters")]
     [SerializeField] private float speed;
     private Vector3 initScale;
+    private bool movingLeft;
 
     void Awake()
     {
@@ -22,17 +23,46 @@ public class EnemyPatrol : MonoBehaviour
 
     void Update()
     {
-        MoveInDirection(1);
+        
+        if (movingLeft) //Moves character left until it reaches the edge
+        {
+            if (enemy.position.x >= leftEdge.position.x)
+            {
+                MoveInDirection(-1);
+            } else {
+                DirectionChange();
+            }
+        } 
+        else //Moves character right until it reaches the edge
+        {
+            if (enemy.position.x <= rightEdge.position.x)
+            {
+                MoveInDirection(1);
+            } else {
+                DirectionChange();
+            }
+        }
     }
 
     void MoveInDirection(int _direction)
     {
-        // Move enemy in facing direction
-        enemy.localScale = new Vector3(Mathf.Abs(initScale.x) * _direction, 
-            initScale.y, initScale.z);
+        //Rotate Enemy to face moving direction.
+        if (_direction > 0)
+        {
+            enemy.rotation = Quaternion.Euler(0, 0, 0); // Facing right
+        }
+        else if (_direction < 0)
+        {
+            enemy.rotation = Quaternion.Euler(0, 180, 0); // Facing left
+        }
 
         // Move in that direction
-        enemy.position = new Vector3(enemy.position.x + Time.deltaTime *_direction * speed, 
+        enemy.position = new Vector3(enemy.position.x + Time.deltaTime * _direction * speed, 
             enemy.position.y, enemy.position.z);
+    }
+
+    void DirectionChange()
+    {
+        movingLeft = !movingLeft;
     }
 }
