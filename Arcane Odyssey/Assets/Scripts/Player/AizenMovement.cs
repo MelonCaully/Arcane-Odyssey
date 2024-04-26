@@ -49,6 +49,10 @@ public class AizenMovement : MonoBehaviour
             animator.SetBool("isJumping", false);
             animator.SetBool("isFalling", true);
         }
+        else if (rb.velocity.y > -1) // Not Falling
+        {
+            animator.SetBool("isFalling", false);
+        }
 
         // Adjustable jump height
         if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0)
@@ -63,7 +67,6 @@ public class AizenMovement : MonoBehaviour
         {
             //isGrounded = true;
             n = 0;
-            animator.SetBool("isFalling", false);
             animator.SetBool("isGrounded", true);
         }
     }
