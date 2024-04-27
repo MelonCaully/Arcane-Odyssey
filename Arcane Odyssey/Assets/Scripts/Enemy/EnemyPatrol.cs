@@ -11,14 +11,24 @@ public class EnemyPatrol : MonoBehaviour
     [Header ("Enemy")]
     [SerializeField] private Transform enemy;
 
-     [Header ("Movement Parameters")]
+    [Header ("Movement Parameters")]
     [SerializeField] private float speed;
     private Vector3 initScale;
     private bool movingLeft;
+    [SerializeField] private float idleDuration;
+    private float idleTimer;
+
+    [Header ("Enemy Animator")]
+    [SerializeField] private Animator animator;
 
     void Awake()
     {
         initScale = enemy.localScale;
+    }
+
+    void OnDisable()
+    {
+        animator.SetBool("isMoving", false);
     }
 
     void Update()
@@ -46,6 +56,10 @@ public class EnemyPatrol : MonoBehaviour
 
     void MoveInDirection(int _direction)
     {
+
+        idleTimer = 0;
+        animator.SetBool("isMoving", true);
+
         //Rotate Enemy to face moving direction.
         if (_direction > 0)
         {
@@ -63,6 +77,11 @@ public class EnemyPatrol : MonoBehaviour
 
     void DirectionChange()
     {
-        movingLeft = !movingLeft;
+        animator.SetBool("isMoving", false);
+        idleTimer += Time.deltaTime;
+        if (idleTimer > idleDuration)
+        {
+            movingLeft = !movingLeft;
+        }
     }
 }

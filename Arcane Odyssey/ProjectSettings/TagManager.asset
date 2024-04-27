@@ -61,10 +61,13 @@ TagManager:
   - name: PickUps
     uniqueID: 2925792681
     locked: 0
+  - name: Player
+    uniqueID: 3193855069
+    locked: 0
   - name: Traps
     uniqueID: 3878121157
     locked: 0
-  - name: Entity
+  - name: Enemy
     uniqueID: 4009202439
     locked: 0
   - name: Ground

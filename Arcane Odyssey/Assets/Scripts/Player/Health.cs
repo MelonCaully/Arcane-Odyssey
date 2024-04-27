@@ -37,7 +37,7 @@ public class Health : MonoBehaviour
         
         if (currentHealth > 0)
         {
-            animator.SetTrigger("Hurt");
+            animator.SetTrigger("Hit");
             StartCoroutine(Invulnerability());
         } 
         else
@@ -45,8 +45,23 @@ public class Health : MonoBehaviour
             if (!dead)
             {
                 animator.SetTrigger("Dead");
-                GetComponent<AizenMovement>().enabled = false;
-                 GetComponent<AizenAttack>().enabled = false;
+
+                // Player
+                if(GetComponent<AizenMovement>() != null){
+                    GetComponent<AizenMovement>().enabled = false;
+                }
+                if(GetComponent<AizenAttack>() != null){
+                    GetComponent<AizenAttack>().enabled = false;
+                }
+
+                //Enemy
+                if(GetComponentInParent<EnemyPatrol>() != null){
+                    GetComponentInParent<EnemyPatrol>().enabled = false;
+                }
+                if(GetComponent<MeleeEnemy>() != null){
+                    GetComponent<MeleeEnemy>().enabled = false;
+                }
+
                 dead = true;
                 rb.velocity = Vector2.zero; // Reset the velocity to zero
                 rb.isKinematic = true;
