@@ -16,6 +16,9 @@ public class Health : MonoBehaviour
     [SerializeField] private int numberOfFlashes;
     private SpriteRenderer spriteRend;
 
+    [Header ("Components")]
+     [SerializeField] private Behaviour[] components;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -46,20 +49,10 @@ public class Health : MonoBehaviour
             {
                 animator.SetTrigger("Dead");
 
-                // Player
-                if(GetComponent<AizenMovement>() != null){
-                    GetComponent<AizenMovement>().enabled = false;
-                }
-                if(GetComponent<AizenAttack>() != null){
-                    GetComponent<AizenAttack>().enabled = false;
-                }
-
-                //Enemy
-                if(GetComponentInParent<EnemyPatrol>() != null){
-                    GetComponentInParent<EnemyPatrol>().enabled = false;
-                }
-                if(GetComponent<MeleeEnemy>() != null){
-                    GetComponent<MeleeEnemy>().enabled = false;
+                // Deactivate all attached components
+                foreach (Behaviour component in components)
+                {
+                    component.enabled = false;
                 }
 
                 dead = true;
