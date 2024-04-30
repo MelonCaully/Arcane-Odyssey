@@ -11,7 +11,7 @@ public class HealthPotion : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            collider.GetComponent<Health>().AddHealth(healthValue);
+            collider.GetComponent<PlayerHealth>().AddHealth(healthValue);
             gameObject.SetActive(false);
         }
     }

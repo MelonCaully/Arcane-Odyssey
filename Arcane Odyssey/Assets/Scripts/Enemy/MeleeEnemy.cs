@@ -13,12 +13,12 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] private float colliderDistance;
     [SerializeField] private PolygonCollider2D polygonCollider;
 
-    [Header ("player Layer")]
+    [Header ("Player Layer")]
     [SerializeField] private LayerMask playerLayer;
     private float cooldownTimer = Mathf.Infinity;
 
     private Animator animator;
-    private Health playerHealth;
+    private PlayerHealth playerHealth;
     private EnemyPatrol enemyPatrol;
     
     void Awake()
@@ -56,7 +56,7 @@ public class MeleeEnemy : MonoBehaviour
 
         if (hit.collider != null)
         {
-            playerHealth = hit.transform.GetComponent<Health>();
+            playerHealth = hit.transform.GetComponent<PlayerHealth>();
         }
 
         return hit.collider != null;

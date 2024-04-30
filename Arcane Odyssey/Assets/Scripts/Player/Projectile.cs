@@ -5,6 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] public float speed;
+    [SerializeField] private AudioClip explode;
     private float direction;
     private bool hit;
     private float lifetime;
@@ -32,10 +33,11 @@ public class Projectile : MonoBehaviour
         hit = true;
         circleCollider.enabled = false;
         animator.SetTrigger("Explode");
+        SoundManager.instance.PlaySound(explode);
 
         if (collision.tag == "Enemy")
         {
-            collision.GetComponent<Health>().TakeDamage(1);
+            collision.GetComponent<EnemyHealth>().TakeDamage(1);
         }
     }
 
@@ -54,7 +56,6 @@ public class Projectile : MonoBehaviour
         }
         transform.localScale = new Vector3(localScaleX, transform.localScale.y, transform.localScale.z);
     }
-
 
     void Deactivate()
     {

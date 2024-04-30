@@ -39,7 +39,7 @@ public class MenuState : BaseState
 
     private void StartClicked()
     {
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene(1);
     }
     private void SettingsClicked()
     {
